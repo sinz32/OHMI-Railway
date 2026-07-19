@@ -5,14 +5,14 @@ url = 'https://www.ohmitetudo.co.jp/railway/ride/timetable/honsen/'
 # url = 'https://www.ohmitetudo.co.jp/railway/ride/timetable/yokaichi/'
 # url = 'https://www.ohmitetudo.co.jp/railway/ride/timetable/taga/'
 
-response = requests.get(url);
-# print(response.text);
+response = requests.get(url)
+# print(response.text)
 html = BeautifulSoup(response.text, 'html.parser')
 
 def parse_timetable(url):
 	if url == None: return []
-	response = requests.get(url);
-	# print(response.text);
+	response = requests.get(url)
+	# print(response.text)
 	html = BeautifulSoup(response.text, 'html.parser')
 	data = html.select('div#timetable')[0].select('div.mt-6')
 	
@@ -23,12 +23,12 @@ def parse_timetable(url):
 	# 평일
 	for li in data[0].select('li.ekltip'):
 		span = li.select('span')
-		result['weekdays'].append(span[0].text);
+		result['weekdays'].append(span[0].text)
 	
 	# 휴일
 	for li in data[1].select('li.ekltip'):
 		span = li.select('span')
-		result['weekends'].append(span[0].text);
+		result['weekends'].append(span[0].text)
 	
 	print(result)
 	return result
@@ -36,7 +36,7 @@ def parse_timetable(url):
 
 result = []
 data = html.select('div.ridestation')[0].select('div.honsen_item')
-first = True;
+first = True
 for datum in data:
 	stn = datum.select('p.honsen_stationname')[0].text
 	urls = datum.select('a')
@@ -54,13 +54,13 @@ for datum in data:
 		
 	if len(urls)==1: 
 		if first:
-			urls.append(None);
+			urls.append(None)
 		else:
-			urls.append(urls[0]);
-			urls[0] = None;
+			urls.append(urls[0])
+			urls[0] = None
 	else:
 		urls[1] = urls[1]['href']
-	first = False;
+	first = False
 	print(stn, urls)
 	
 	result.append({
